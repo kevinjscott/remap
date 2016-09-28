@@ -1,0 +1,64 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+html {
+  font-size: 16px; }
+
+body {
+  color: #666;
+  font-family: Arial, Helvetica, sans-serif; }
+
+a {
+  color: #009;
+  text-decoration: underline;
+  cursor: pointer; }
+
+a:hover {
+  color: #006; }
+
+canvas {
+  display: block; }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
+@font-face {
+  font-family: "generica";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../assets/fonts/generica.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/generica.woff") format("woff"), url("../assets/fonts/generica.ttf") format("truetype"), url("../assets/fonts/generica.svg#generica") format("svg"); }
+
+.incompatible-browser {
+  display: none;
+  position: relative;
+  width: 100%;
+  text-align: center; }
+
+.no-js .incompatible-browser {
+  display: block; }
+
+.incompatible .incompatible-browser {
+  display: block; }
+
+.loader {
+  display: none;
+  text-align: center; }
+
+.version {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  padding: 0.5em;
+  background: #eee;
+  color: #666;
+  font-family: Arial, Helvetica, sans-serif;
+  opacity: 0.9;
+  z-index: 9999; }
+  .version span {
+    color: #aaa; }
+
+/*# sourceMappingURL=style.css.map */

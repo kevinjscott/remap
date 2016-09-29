@@ -1,6 +1,6 @@
 # Remap
 
-Generated from https://github.com/yeoman/generator-webapp
+Generated from https://www.npmjs.com/package/generator-angular-webpack
 
 ### I/O
 

@@ -7,6 +7,7 @@ var angular = require('angular'),
     mAnimations = require('./animations/_loader'),
     mCtrls = require('./controllers/_loader'),
     mDirectives = require('./directives/_loader'),
+    _ = require('lodash'),
     mServices = require('./services/_loader');
 
 

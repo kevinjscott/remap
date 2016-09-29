@@ -3,6 +3,7 @@
 var mCtrls = require('./_mCtrls'),
     debug = require('debug'),
     log = debug('Ctrls'),
+    fixy = require('fixy'),
     loader = require('../../utilities/loader');
 
 mCtrls.controller('MyCtrl', function ($scope) {

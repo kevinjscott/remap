@@ -14,5 +14,9 @@ module.exports = {
             { test: /.*gsap.*/, loader: 'imports?gs=>window.GreenSockGlobals={}!exports?gs' },
             { test: /.*PreloadJS.*/, loader: 'imports?this=>global!exports?window.createjs' }
         ]
+    },
+    node: {
+      fs: "empty"
     }
 };
+

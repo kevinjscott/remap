@@ -36,5 +36,9 @@ angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls, mDir
 
         $urlRouterProvider.otherwise('/');
 
-        $locationProvider.html5Mode(true);
+        // $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+          });
     });

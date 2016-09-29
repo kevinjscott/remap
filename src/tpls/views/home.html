@@ -1,26 +1,72 @@
-<div class="jumbotron">
+<!-- <div class="jumbotron"> -->
   <div class="container">
-    <h1 class="display-3">Hello, world!</h1>
+    <h1 class="display-3">TPA Data Remapper</h1>
 
     <div class="form-group">
       <label for="indata">Input data:</label>
-      <textarea id="indata" class="form-control" ng-model="indata" ng-init_="todo"></textarea>
+      <textarea id="indata" class="form-control" ng-model="indata" ng-change="calculateOutdata()" ng-init_="todo"></textarea>
     </div>
+
+    <div class="alert alert-danger" role="alert" ng-bind="erroralert" ng-show="erroralert"></div>
 
     <div class="form-group">
       <button class="btn btn-primary" ng-click="calculateOutdata()">remap data</button>
     </div>
 
     <div class="form-group">
+      <label for="lineselector">Include only lines that match this <a href="https://regex101.com/" target="_BLANK">regex</a>:</label>
+      <input type="text" id="lineselector" class="form-control" ng-model="lineselector" ng-change="calculateOutdata()"></input>
+    </div>
+
+    <div class="form-group" ng-show="outdata.length">
       <label for="outdata">Output data:</label>
       <textarea id="outdata" class="form-control" ng-bind="outdata"></textarea>
     </div>
 
-    <p>Just paste the input data above and click remap!</p>
-  </div>
-</div>
+    <table class="table table-condensed" ng-repeat="map in maps">
+      <thead>
+        <tr>
+          <th>{{map.name}}</th>
+          <!-- <th>Map #{{$index+1}}</th> -->
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>Name:</td>
+            <td><input ng-model="map.name" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Width (input):</td>
+            <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Start position:</td>
+            <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Type:</td>
+            <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Width (output):</td>
+            <td><input ng-model="map.outwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Padding position (start or end):</td>
+            <td><input ng-model="map.padding_position" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Padding character:</td>
+            <td><input ng-model="map.padding_symbol" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+      </tbody>
+    </table>
 
-<div class="container">
+  </div>
+<!-- </div> -->
+
+<div class="container hide">
   <div class="row">
     <div class="col-md-4">
       <h2>Heading</h2>

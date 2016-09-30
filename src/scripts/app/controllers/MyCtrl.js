@@ -14,7 +14,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
     // console.log(_.VERSION);
 
     // $scope.indata = _.repeat('0123456789', 8);
-    $scope.indata = 'YES21ABC\nYES22DEF\nNOO23GHI\nYES24JKL';
+    $scope.indata = 'YES210001234ABC\nYES220000011DEF\nNOO230000123GHI\nYES240000234JKL';
     $scope.lineselector = '^YES';
     $scope.maps = [ 
         {
@@ -29,18 +29,49 @@ mCtrls.controller('MyCtrl', function ($scope) {
         }, {
             'name': 'Initials',
             'inwidth': 3,
-            'instart': 6,
+            'instart': 13,
             'type': 'string',
             'transform': null, // todo
             'outwidth': 10,
             'padding_position': 'end',
             'padding_symbol': '_'
+        }, {
+            'name': 'Price',
+            'inwidth': 7,
+            'instart': 6,
+            'type': 'float',
+            'transform': null, // todo
+            'outwidth': 10,
+            'padding_position': 'start',
+            'padding_symbol': '0'
         }
     ];
+    $scope.cursorPosVal = {};
+
+    $scope.validateIndata = function () {
+      // todo: error when NaN is found
+
+      var indata = $scope.indata;
+
+      indata = _.split(indata, '\n');
+
+      var average = _.reduce(indata, function(sum, str) {
+        return (sum + str.length);
+      }, 0) / indata.length;
+
+      if (average !== indata[0].length) {
+        $scope.erroralert = 'Input data rows are not all the same length.';
+      } else {
+        $scope.erroralert = '';
+      }
+    };
+
 
     $scope.calculateOutdata = function () {
         var keyMapping, maps, datawidth;
         var predata = _.split($scope.indata, '\n');
+
+        $scope.validateIndata();
 
         keyMapping = {
             'name': 'name',
@@ -74,7 +105,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
         var nativedata = fixy.parse({
             map: maps,
             options: {
-                fullwidth: datawidth, // todo: check each line, warn on length, error when lines are excluded
+                fullwidth: datawidth,
                 skiplines: [], // todo
                 format: 'json'
             }
@@ -100,4 +131,12 @@ mCtrls.controller('MyCtrl', function ($scope) {
         $scope.outdata = result;
     };
 
+    $scope.getCursorPos = function($event) {
+        var n = window.getSelection().focusOffset;
+        var rowlen = _.split($scope.indata, '\n')[0].length;
+
+        $scope.cursorPosVal.pos = n;  // todo: n+1?
+        $scope.cursorPosVal.col = n % rowlen;
+        $scope.cursorPosVal.row = _.floor(n / rowlen) + 1;
+    };        
 });

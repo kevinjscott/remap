@@ -8,14 +8,19 @@ Generated from https://www.npmjs.com/package/generator-angular-webpack
 * Write fixed-width, one-line data to textarea
 * Specify regex that selects lines to read
 
-### Column rules
+### Data maps
 
 * Regex to read column
 * Regex to replace column
 * Save/load from localstorage
 * Add / remove rule
 
+### Nice to have
 
+* Div instead of textarea for indata
+* Input / output column highlight when hovering over a map
+* Row/col coordinates when cursoring around indata
+* Lots of data warnings e.g. unused positions, NaN, previews, 
 
 
 # Angular with Webpack

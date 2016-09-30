@@ -22,12 +22,18 @@ canvas {
     display: block;
 }
 
-textarea {
-  white-space: nowrap;
+#indata,#indata2,#outdata {
   font-family: monospace;
   height: 100px !important;
+  white-space: pre;
+  overflow: scroll;
 }
 
+[contenteditable] {
+  border: 2px dotted #ccc;
+  background-color: #eee;
+  padding: 2px;
+}
 
 // scss-lint:disable ImportantRule, SingleLinePerSelector, SelectorFormat
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

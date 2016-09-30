@@ -4,9 +4,17 @@
 
     <div class="form-group">
       <label for="indata">Input data:</label>
-      <textarea id="indata" class="form-control" ng-model="indata" ng-change="calculateOutdata()" ng-init_="todo"></textarea>
+      <textarea id="indata" class="form-control" ng-model="indata" ng-change="calculateOutdata()"></textarea>
     </div>
 
+<!--     <div> Cursor Position : position: <b ng-bind="cursorPosVal.pos"></b>, row: <b ng-bind="cursorPosVal.row"></b>, col: <b ng-bind="cursorPosVal.col"></b></div>
+ -->
+<!--     <div class="form-group">
+      <label for="indata">Input data:</label>
+      <div id="indata" class="form-control" ng-model="indata" ng-click="getCursorPos($event)" ng-keyup="getCursorPos($event)" ng-change="calculateOutdata()" contenteditable></div>
+      <p>{{text}}</p>
+    </div>
+ -->
     <div class="alert alert-danger" role="alert" ng-bind="erroralert" ng-show="erroralert"></div>
 
     <div class="form-group">
@@ -37,24 +45,24 @@
             <td><input ng-model="map.name" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
           <tr>
-            <td>Width (input):</td>
-            <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
             <td>Start position:</td>
             <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Width (input):</td>
+            <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
           <tr>
             <td>Type:</td>
             <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
           <tr>
-            <td>Width (output):</td>
-            <td><input ng-model="map.outwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
             <td>Padding position (start or end):</td>
             <td><input ng-model="map.padding_position" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Width (output):</td>
+            <td><input ng-model="map.outwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
           <tr>
             <td>Padding character:</td>
@@ -64,26 +72,3 @@
     </table>
 
   </div>
-<!-- </div> -->
-
-<div class="container hide">
-  <div class="row">
-    <div class="col-md-4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-   </div>
-    <div class="col-md-4">
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div>
-  </div>
-
-  <hr>
-</div>

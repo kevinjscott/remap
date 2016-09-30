@@ -51,19 +51,19 @@ mCtrls.controller('MyCtrl', function ($scope) {
     $scope.validateIndata = function () {
       // todo: error when NaN is found
 
-      var indata = $scope.indata;
+        var indata = $scope.indata;
 
-      indata = _.split(indata, '\n');
+        indata = _.split(indata, '\n');
 
-      var average = _.reduce(indata, function(sum, str) {
-        return (sum + str.length);
-      }, 0) / indata.length;
+        var average = _.reduce(indata, function (sum, str) {
+            return (sum + str.length);
+        }, 0) / indata.length;
 
-      if (average !== indata[0].length) {
-        $scope.erroralert = 'Input data rows are not all the same length.';
-      } else {
-        $scope.erroralert = '';
-      }
+        if (average !== indata[0].length) {
+            $scope.erroralert = 'Input data rows are not all the same length.';
+        } else {
+            $scope.erroralert = '';
+        }
     };
 
 
@@ -131,7 +131,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
         $scope.outdata = result;
     };
 
-    $scope.getCursorPos = function($event) {
+    $scope.getCursorPos = function () {
         var n = window.getSelection().focusOffset;
         var rowlen = _.split($scope.indata, '\n')[0].length;
 

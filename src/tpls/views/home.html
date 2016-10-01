@@ -11,7 +11,7 @@
  -->
 <!--     <div class="form-group">
       <label for="indata">Input data:</label>
-      <div id="indata" class="form-control" ng-model="indata" ng-click="getCursorPos()" ng-keyup="getCursorPos()" ng-change="calculateOutdata()" contenteditable></div>
+      <div id="indata" class="form-control" ng-model="indata" ng-click="getCursorPos)" ng-keyup="getCursorPos()" ng-change="calculateOutdata()" contenteditable></div>
       <p>{{text}}</p>
     </div>
  -->
@@ -19,6 +19,16 @@
 
     <div class="form-group">
       <button class="btn btn-primary" ng-click="calculateOutdata()">remap data</button>
+    </div>
+
+    <div class="form-group">
+      <label for="headerselector">Use section header rows that match this <a href="https://regex101.com/" target="_BLANK">regex</a> (leave blank if data is not grouped into sections):</label>
+      <input type="text" id="headerselector" class="form-control" ng-model="headerselector" ng-change="calculateOutdata()"></input>
+    </div>
+
+    <div class="form-group">
+      <label for="headerrowcount">Number of rows in section header:</label>
+      <input type="text" id="headerrowcount" class="form-control" ng-model="headerrowcount" ng-change="calculateOutdata()"></input>
     </div>
 
     <div class="form-group">
@@ -41,32 +51,36 @@
       </thead>
       <tbody>
           <tr>
-            <td>Name:</td>
+            <td>Name (for reference only):</td>
             <td><input ng-model="map.name" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
           <tr>
-            <td>Start position:</td>
-            <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Width (input):</td>
-            <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Type:</td>
-            <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Padding position (start or end):</td>
-            <td><input ng-model="map.padding_position" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Width (output):</td>
+            <td>Output width:</td>
             <td><input ng-model="map.outwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
           <tr>
-            <td>Padding character:</td>
+            <td>Output padding placement ("start" or "end"):</td>
+            <td><input ng-model="map.padding_position" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Output padding character:</td>
             <td><input ng-model="map.padding_symbol" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Input source (0 = this row, 1 = section header row #1, #2, etc):</td>
+            <td><input ng-model="map.sourcerow" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Input start position:</td>
+            <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Input width:</td>
+            <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+          </tr>
+          <tr>
+            <td>Type (todo):</td>
+            <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
           </tr>
       </tbody>
     </table>

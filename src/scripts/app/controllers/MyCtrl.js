@@ -77,6 +77,25 @@ mCtrls.controller('MyCtrl', function ($scope) {
 
     $scope.cursorPosVal = {};
 
+    $scope.addMap = function (n) {
+      var o = {
+            'name': 'New',
+            'inwidth': 1,
+            'instart': 1,
+            'type': 'string',
+            'outwidth': 10,
+            'sourcerow': 0,
+            'padding_position': 'end',
+            'padding_symbol': ' '
+        };
+
+      $scope.maps.splice(n + 1, 0, o);
+    }
+
+    $scope.removeMap = function (n) {
+    _.pullAt($scope.maps, n);
+    }
+
     $scope.onTextClick = function ($event) {
         $event.target.select();
     };

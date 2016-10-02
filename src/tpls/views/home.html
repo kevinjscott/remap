@@ -66,6 +66,8 @@
             <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+            <td><button class="btn btn-danger" ng-click="removeMap($index)">remove</button></td>
+            <td><button class="btn btn-success" ng-click="addMap($index)">add</button></td>
           </tr>
       </tbody>
     </table>

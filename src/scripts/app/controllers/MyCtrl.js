@@ -77,73 +77,29 @@ mCtrls.controller('MyCtrl', function ($scope) {
 
     $scope.cursorPosVal = {};
 
-    $scope.validateIndata = function () {
-      // todo: error when NaN is found
+    // var validateIndata = function () {
+    //   // todo: error when NaN is found
 
-        var indata = $scope.indata;
+    //     var indata = $scope.indata;
 
-        indata = _.split(indata, '\n');
+    //     indata = _.split(indata, '\n');
 
-        var average = _.reduce(indata, function (sum, str) {
-            return (sum + str.length);
-        }, 0) / indata.length;
+    //     var average = _.reduce(indata, function (sum, str) {
+    //         return (sum + str.length);
+    //     }, 0) / indata.length;
 
-        if (average !== indata[0].length) {
-            $scope.erroralert = 'Input data rows are not all the same length.';
-        } else {
-            $scope.erroralert = '';
-        }
+    //     if (average !== indata[0].length) {
+    //         $scope.erroralert = 'Input data rows are not all the same length.';
+    //     } else {
+    //         $scope.erroralert = '';
+    //     }
+    // };
+
+    $scope.onTextClick = function ($event) {
+        $event.target.select();
     };
 
-    $scope.parseIntoSections = function (data) {
-        var re;
-        var datacopy = data;
-        var arrtemp = [];
-        var results = [];
-        var i;
-
-        while (datacopy.length) {
-            arrtemp = [];
-
-            // grab the section header row(s)
-            i = _.findIndex(datacopy, function (row) {
-                re = $scope.headerselector;
-                re = new RegExp(re, '');
-                return (re.exec(row));
-            });
-
-            if (i > 0) {    // remove any rows before the header
-                datacopy = _.drop(datacopy, i);
-            }
-
-            arrtemp = _.concat(arrtemp, 
-                _.remove(datacopy, function (value, index) {
-                    return (index < $scope.headerrowcount);
-                })
-            );
-
-            // grab the data rows
-            i = _.findIndex(datacopy, function (row) {
-                re = $scope.headerselector;
-                re = new RegExp(re, '');
-                return (re.exec(row));
-            });
-            arrtemp = _.concat(arrtemp,
-                _.remove(datacopy, function (value, index) {
-                    if (i >= 0) {
-                        return (index < i); // return each row up to the next header
-                    } else {
-                        return (true);  // return everything if no remaining headers were found
-                    }
-                })
-            );
-
-            results.push($scope.addRowsToSections(arrtemp));   // each section becomes an item in the results array
-        }
-        return (results);
-    };
-
-    $scope.addRowsToSections = function (data) {
+    var addRowsToSections = function (data) {
         var result = { rows: [] };
 
         _.each(data, function (row) {
@@ -153,7 +109,66 @@ mCtrls.controller('MyCtrl', function ($scope) {
         return (result);
     };
 
-    $scope.buildValueMap = function (n) {
+    var getSectionHeader = function (row) {
+        var re;
+
+        re = $scope.headerselector;
+        re = new RegExp(re, '');
+        return (re.exec(row));
+    };
+
+    var getDataRows = function (row) {
+        var re;
+
+        re = $scope.headerselector;
+        re = new RegExp(re, '');
+        return (re.exec(row));
+    };
+
+    var parseIntoSections = function (data) {
+        var datacopy = data;
+        var arrtemp = [];
+        var results = [];
+        var i;
+
+        while (datacopy.length) {
+            arrtemp = [];
+
+            // grab the section header row(s)
+            i = _.findIndex(datacopy, getSectionHeader);
+
+            if (i > 0) {    // remove any rows before the header
+                datacopy = _.drop(datacopy, i);
+            }
+
+            arrtemp = _.concat(arrtemp, 
+                _.remove(datacopy, function (value, index) {
+                    return (index < $scope.headerrowcount);
+                }
+            ));
+
+            // grab the data rows
+            i = _.findIndex(datacopy, getDataRows);
+            if (i >= 0) {   // another header was found - return each row up to the next header
+                arrtemp = _.concat(arrtemp, 
+                    _.remove(datacopy, function (value, index) {
+                        return (index < i);
+                    }
+                ));
+            } else {      // return remaining rows since no subsequent headers were found
+                arrtemp = _.concat(arrtemp,
+                    _.remove(datacopy, function () {
+                        return (true);
+                    }
+                ));
+            }
+
+            results.push(addRowsToSections(arrtemp));   // each section becomes an item in the results array
+        }
+        return (results);
+    };
+
+    var buildValueMap = function (n) {
         var result = {};
         var i;
 
@@ -164,7 +179,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
         return (result);
     };
 
-    $scope.buildLevels = function (headerrowcount, data) {
+    var buildLevels = function (headerrowcount, data) {
         var result = {};
         var i;
 
@@ -188,8 +203,16 @@ mCtrls.controller('MyCtrl', function ($scope) {
         return (result);
     };
 
+    var getDataRowsThatMatchSelector = function (str) {
+        var re;
+
+        re = $scope.lineselector;
+        re = new RegExp(re, '');
+        return (re.exec(str));
+    };
+
     $scope.calculateOutdata = function () {
-        var keyMapping, valueMapping, inmaps, outmaps, options, nativedata, flatnativedata, datawidth, j, i, predata, preheaderdata, re, result;
+        var keyMapping, valueMapping, inmaps, outmaps, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
         var allinrowsclean = _.split($scope.indata, '\n');
         var sections = [];
         var headerwidths = [];
@@ -207,7 +230,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
         $scope.outdata = '';
         sections[0] =  {}; // todo: parse out the actual multiple sections
         // sections[0].rows = allinrowsclean
-        sections = $scope.parseIntoSections(allinrowsclean);
+        sections = parseIntoSections(allinrowsclean);
 
         // assemble the map using the object keys that fixy needs
         keyMapping = {
@@ -218,7 +241,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
             'sourcerow': 'level'
         };
         
-        valueMapping = $scope.buildValueMap($scope.headerrowcount);
+        valueMapping = buildValueMap($scope.headerrowcount);
 
         inmaps = _.map($scope.maps, function (o) {
             return _.transform(o, function (res, value, key) {
@@ -245,33 +268,21 @@ mCtrls.controller('MyCtrl', function ($scope) {
             });
         });
 
-        for (j = 0; j < sections.length; j++) {   // start section loop
+        for (j = 0; j < sections.length; j++) {
             predata = sections[j].rows;
 
-            // $scope.validateIndata();
+            // validateIndata();
             preheaderdata = _.take(predata, $scope.headerrowcount);
-            predata = _.filter(_.drop(predata, $scope.headerrowcount), function (str) {
-                // only grab lines that meet our line selector regex
-                re = $scope.lineselector;
-
-                re = new RegExp(re, '');
-                return (re.exec(str));
-            });
-
+            predata = _.filter(_.drop(predata, $scope.headerrowcount), getDataRowsThatMatchSelector);
             predata = _.concat(preheaderdata, predata);
-
-            // console.log(predata);
 
             for (i = 0; i < $scope.headerrowcount; i++) {
                 headerwidths.push(predata[i] ? predata[i].length : 0);
             }
 
-            datawidth = predata[$scope.headerrowcount] ? predata[$scope.headerrowcount].length : 0;   // todo: test this e.g. no PAY records
-
-            options = {};
-
-            options.skiplines = null;
-            options.levels = $scope.buildLevels($scope.headerrowcount, predata);
+            options = { skiplines: null };
+            // options.skiplines = null;
+            options.levels = buildLevels($scope.headerrowcount, predata);
             predata = _.join(predata, '\n');
 
             nativedata = fixy.parse({
@@ -290,7 +301,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
             result = fixy.unparse(outmaps, flatnativedata);
 
             $scope.outdata += ($scope.outdata.length ? '\n' : '') + result;
-        } // end section loop
+        }
     };
 
     $scope.getCursorPos = function () {

@@ -1,10 +1,10 @@
 <!-- <div class="jumbotron"> -->
   <div class="container">
-    <h1 class="display-3">TPA Data Remapper</h1>
+    <h1 class="display-3">Fixed Width Data Remapper</h1>
 
     <div class="form-group">
       <label for="indata">Input data:</label>
-      <textarea id="indata" class="form-control" ng-model="indata" ng-change="calculateOutdata()"></textarea>
+      <textarea id="indata" class="form-control" ng-model="indata" ng-change="calculateOutdata()" placeholder="Paste input file contents here"></textarea>
     </div>
 
 <!--     <div> Cursor Position : position: <b ng-bind="cursorPosVal.pos"></b>, row: <b ng-bind="cursorPosVal.row"></b>, col: <b ng-bind="cursorPosVal.col"></b></div>
@@ -15,6 +15,11 @@
       <p>{{text}}</p>
     </div>
  -->
+    <div class="form-group" ng-show="outdata.length">
+      <label for="outdata">Output data:</label>
+      <textarea id="outdata" class="form-control" ng-bind="outdata" ng-click="onTextClick($event)"></textarea>
+    </div>
+
     <div class="alert alert-danger" role="alert" ng-bind="erroralert" ng-show="erroralert"></div>
 
     <div class="form-group">
@@ -34,11 +39,6 @@
     <div class="form-group">
       <label for="lineselector">Include only lines that match this <a href="https://regex101.com/" target="_BLANK">regex</a>:</label>
       <input type="text" id="lineselector" class="form-control" ng-model="lineselector" ng-change="calculateOutdata()"></input>
-    </div>
-
-    <div class="form-group" ng-show="outdata.length">
-      <label for="outdata">Output data:</label>
-      <textarea id="outdata" class="form-control" ng-bind="outdata"></textarea>
     </div>
 
     <table class="table table-condensed" ng-repeat="map in maps">

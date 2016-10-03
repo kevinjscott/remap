@@ -90,11 +90,22 @@ mCtrls.controller('MyCtrl', function ($scope) {
         };
 
       $scope.maps.splice(n + 1, 0, o);
-    }
+    };
 
     $scope.removeMap = function (n) {
     _.pullAt($scope.maps, n);
-    }
+    };
+
+    var setPreviews = function () {
+        var line = (_.split($scope.outdata, '\n') || [])[0];
+        var i = 0;
+        var pos = 0;
+
+        _.each($scope.maps, function(o, i) {
+            $scope.maps[i].preview = '"' + line.substring(pos, pos + $scope.maps[i].outwidth) + '"';
+            pos += $scope.maps[i].outwidth;
+        });
+    };
 
     $scope.onTextClick = function ($event) {
         $event.target.select();
@@ -338,6 +349,8 @@ mCtrls.controller('MyCtrl', function ($scope) {
             result = fixy.unparse(outmaps, flatnativedata);
 
             $scope.outdata += ($scope.outdata.length ? '\n' : '') + result;
+
+            setPreviews();
         }
     };
 

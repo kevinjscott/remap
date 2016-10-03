@@ -72,7 +72,11 @@
             <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><button class="btn btn-danger" ng-click="removeMap($index)">remove</button></td>
             <td><button class="btn btn-success" ng-click="addMap($index)">add</button></td>
-            <td><pre ng-show="map.preview">{{map.preview}}</pre></td>
+            <td><pre ng-show="map.preview">"{{map.preview}}"</pre></td>
+          </tr>
+          <tr>
+            <td><button class="btn btn-primary" ng-click="saveMaps()">save</button></td>
+            <td>Load: <input type="file" on-read-file="setMap($fileContent)" /></td>
           </tr>
       </tbody>
     </table>

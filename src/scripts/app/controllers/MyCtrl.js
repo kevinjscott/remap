@@ -5,7 +5,32 @@ var mCtrls = require('./_mCtrls'),
     // log = debug('Ctrls'),
     _ = require('lodash'),
     // loader = require('../../utilities/loader'),
-    fixy = require('fixy');
+    fixy = require('fixy'),
+    filesaver = require('file-saver');
+
+
+mCtrls.directive('onReadFile', function ($parse) {
+  return {
+    restrict: 'A',
+    scope: false,
+    link: function(scope, element, attrs) {
+      var fn = $parse(attrs.onReadFile);
+ 
+      element.on('change', function(onChangeEvent) {
+        var reader = new FileReader();
+ 
+        reader.onload = function(onLoadEvent) {
+          scope.$apply(function() {
+            fn(scope, {$fileContent:onLoadEvent.target.result});
+          });
+        };
+ 
+        reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+      });
+    }
+  };
+});
+
 
 mCtrls.controller('MyCtrl', function ($scope) {
     // log('test');
@@ -78,7 +103,7 @@ mCtrls.controller('MyCtrl', function ($scope) {
     $scope.cursorPosVal = {};
 
     $scope.addMap = function (n) {
-      var o = {
+        var o = {
             'name': 'New',
             'inwidth': 1,
             'instart': 1,
@@ -89,22 +114,51 @@ mCtrls.controller('MyCtrl', function ($scope) {
             'padding_symbol': ' '
         };
 
-      $scope.maps.splice(n + 1, 0, o);
+        $scope.maps.splice(n + 1, 0, o);
     };
 
     $scope.removeMap = function (n) {
-    _.pullAt($scope.maps, n);
+        _.pullAt($scope.maps, n);
     };
 
     var setPreviews = function () {
         var line = (_.split($scope.outdata, '\n') || [])[0];
-        var i = 0;
         var pos = 0;
 
-        _.each($scope.maps, function(o, i) {
-            $scope.maps[i].preview = '"' + line.substring(pos, pos + $scope.maps[i].outwidth) + '"';
+        _.each($scope.maps, function (o, i) {
+            $scope.maps[i].preview = line.substring(pos, pos + $scope.maps[i].outwidth);
             pos += $scope.maps[i].outwidth;
         });
+    };
+
+    $scope.saveMaps = function () {
+        var blob, tempobj;
+
+        tempobj = _.map($scope.maps, function(o) { return _.omit(o, 'preview'); });
+        blob = new Blob([angular.toJson(tempobj)], { type: 'text/plain;charset=utf-8' });
+        filesaver.saveAs(blob, 'maps.json');
+    };
+
+    $scope.loadMaps = function ($e) {
+        var file = $e.target.files[0];
+        var reader = new FileReader();
+
+        if (!file) {
+            return;
+        }
+
+        reader.onload = function(e) {
+            var contents = e.target.result;
+
+            $scope.maps = contents;
+        };
+
+        reader.readAsText(file);
+    }
+
+    $scope.setMap = function ($fileContent) {
+        $scope.maps = angular.fromJson($fileContent);
+        $scope.filereaderbutton = '';
     };
 
     $scope.onTextClick = function ($event) {

@@ -10,25 +10,25 @@ var mCtrls = require('./_mCtrls'),
 
 
 mCtrls.directive('onReadFile', function ($parse) {
-  return {
-    restrict: 'A',
-    scope: false,
-    link: function(scope, element, attrs) {
-      var fn = $parse(attrs.onReadFile);
- 
-      element.on('change', function(onChangeEvent) {
-        var reader = new FileReader();
- 
-        reader.onload = function(onLoadEvent) {
-          scope.$apply(function() {
-            fn(scope, {$fileContent:onLoadEvent.target.result});
-          });
-        };
- 
-        reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
-      });
-    }
-  };
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function (scope, element, attrs) {
+            var fn = $parse(attrs.onReadFile);
+       
+            element.on('change', function (onChangeEvent) {
+                var reader = new FileReader();
+         
+                reader.onload = function (onLoadEvent) {
+                    scope.$apply(function () {
+                        fn(scope, { $fileContent: onLoadEvent.target.result });
+                    });
+                };
+         
+                reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+            });
+        }
+    };
 });
 
 
@@ -134,27 +134,10 @@ mCtrls.controller('MyCtrl', function ($scope) {
     $scope.saveMaps = function () {
         var blob, tempobj;
 
-        tempobj = _.map($scope.maps, function(o) { return _.omit(o, 'preview'); });
+        tempobj = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
         blob = new Blob([angular.toJson(tempobj)], { type: 'text/plain;charset=utf-8' });
         filesaver.saveAs(blob, 'maps.json');
     };
-
-    $scope.loadMaps = function ($e) {
-        var file = $e.target.files[0];
-        var reader = new FileReader();
-
-        if (!file) {
-            return;
-        }
-
-        reader.onload = function(e) {
-            var contents = e.target.result;
-
-            $scope.maps = contents;
-        };
-
-        reader.readAsText(file);
-    }
 
     $scope.setMap = function ($fileContent) {
         $scope.maps = angular.fromJson($fileContent);

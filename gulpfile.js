@@ -377,7 +377,7 @@ gulp.task('_js-lint', function () {
  *
  */
 
-gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_modernizr-build',
+gulp.task('_build', ['_css-vendor-build', '_css-build', '_tpls-build', '_modernizr-build',
 '_root-files-build', '_data-build'], function () {
     notifier.notify({
         title: 'Gulp notification',

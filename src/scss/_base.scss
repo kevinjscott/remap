@@ -47,6 +47,10 @@ canvas {
   padding: 2px;
 }
 
+#permadd {
+  vertical-align: bottom;
+}
+
 // scss-lint:disable ImportantRule, SingleLinePerSelector, SelectorFormat
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;

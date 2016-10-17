@@ -50076,6 +50076,7 @@ webpackJsonp([1],[
 	    // debug = require('debug'),
 	    // log = debug('Ctrls'),
 	    _ = __webpack_require__(37),
+	    angular = __webpack_require__(16),
 	    // loader = require('../../utilities/loader'),
 	    fixy = __webpack_require__(38),
 	    filesaver = __webpack_require__(148);
@@ -50173,10 +50174,10 @@ webpackJsonp([1],[
 	    ];
 
 	    $scope.prettymaps = function () {
-	      var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
-	      
-	      return (angular.toJson(temp,2));
-	    }
+	        var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
+	        
+	        return (angular.toJson(temp, 2));
+	    };
 
 	    $scope.cursorPosVal = {};
 

@@ -4,6 +4,7 @@ var mCtrls = require('./_mCtrls'),
     // debug = require('debug'),
     // log = debug('Ctrls'),
     _ = require('lodash'),
+    angular = require('angular'),
     // loader = require('../../utilities/loader'),
     fixy = require('fixy'),
     filesaver = require('file-saver');
@@ -101,10 +102,10 @@ mCtrls.controller('MyCtrl', function ($scope) {
     ];
 
     $scope.prettymaps = function () {
-      var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
-      
-      return (angular.toJson(temp,2));
-    }
+        var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
+        
+        return (angular.toJson(temp, 2));
+    };
 
     $scope.cursorPosVal = {};
 

@@ -14,7 +14,7 @@ var angular = require('angular'),
  * Register main angular app
  */
 angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls, mDirectives, mServices])
-    .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
         'ngInject';
 
         $stateProvider
@@ -35,12 +35,6 @@ angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls, mDir
             });
 
         $urlRouterProvider.otherwise('/');
-
-        // $locationProvider.html5Mode(true);
-        $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-          });
     })
 
     .directive('contenteditable', function () {

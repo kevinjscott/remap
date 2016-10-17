@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-    <title>Remap data</title>
+    <title>Remap data - from root</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -10,7 +10,6 @@
 
     <link rel="shortcut icon" href="favicon.ico?ver=1.0.0">
 
-    <!-- set default share info -->
     <meta property="og:url" content="">
     <meta property="og:title" content="">
     <meta property="og:description" content="">
@@ -24,17 +23,11 @@
 </head>
 
 <body>
-    <!-- begin: incompatible browser page -->
     <div class="incompatible-browser">Incompatible browser</div>
-    <!-- end: incompatible browser page -->
-    <!-- begin: loader -->
     <div class="loader"></div>
-    <!-- end: loader -->
-    <!-- begin: main app -->
     <header class="ng-cloak" ng-include=" 'tpls/partials/header.html' "></header>
     <div class="container view-change-animate ng-cloak" ui-view></div>
     <footer class="ng-cloak" ng-include=" 'tpls/partials/footer.html' "></footer>
-    <!-- end: main app -->
     <script src="scripts/main.js"></script>
 </body>
 </html>

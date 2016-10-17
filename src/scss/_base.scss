@@ -33,6 +33,14 @@ canvas {
   background-color: #eee;
 }
 
+#prettymaps {
+  background-color: #eee;
+  font-family: monospace;
+  height: 400px !important;
+  white-space: pre;
+  overflow: scroll;
+}
+
 [contenteditable] {
   border: 2px dotted #ccc;
   background-color: #eee;

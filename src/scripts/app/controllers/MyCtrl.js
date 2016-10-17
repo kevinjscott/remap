@@ -100,6 +100,12 @@ mCtrls.controller('MyCtrl', function ($scope) {
         }
     ];
 
+    $scope.prettymaps = function () {
+      var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
+      
+      return (angular.toJson(temp,2));
+    }
+
     $scope.cursorPosVal = {};
 
     $scope.addMap = function (n) {

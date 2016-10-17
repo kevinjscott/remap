@@ -31,6 +31,6 @@ appSettings.isNotProduction = function () {
  *
  * @type {Boolean}
  */
-appSettings.renderVersionInfo = true;
+appSettings.renderVersionInfo = false;
 
 module.exports = appSettings;

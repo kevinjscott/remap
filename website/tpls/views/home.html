@@ -47,10 +47,12 @@
 
     <hr/>
 
+    <h2>Column Maps</h2>
+
     <table class="table table-condensed">
       <thead>
         <tr>
-          <th>Name (for reference only):</th>
+          <th>Map name (for reference only):</th>
           <th>Output width:</th>
           <th>Output padding placement ("start" or "end"):</th>
           <th>Output padding character:</th>
@@ -58,6 +60,8 @@
           <th>Input start position:</th>
           <th>Input width:</th>
           <th>Type (todo):</th>
+          <td></td>
+          <td><button class="btn btn-success" ng-click="addMap(-1)">add</button></td>
         </tr>
       </thead>
       <tbody>
@@ -74,13 +78,18 @@
             <td><button class="btn btn-success" ng-click="addMap($index)">add</button></td>
             <td><pre ng-show="map.preview">"{{map.preview}}"</pre></td>
           </tr>
-          <tr>
-            <td><button class="btn btn-primary" ng-click="saveMaps()">save</button></td>
-            <td>Load: <input type="file" on-read-file="setMap($fileContent)" /></td>
-          </tr>
       </tbody>
     </table>
 
+    <div ng-show="maps.length"><button class="btn btn-primary" ng-click="saveMaps()">save maps</button><br/></div>
+    Load: <input type="file" on-read-file="setMap($fileContent)" />
+
+    <br/><br/>
+
+    <div class="form-group" ng-show="maps.length">
+      <label for="prettymaps">Maps (as JSON):</label>
+      <textarea id="prettymaps" class="form-control" ng-bind="prettymaps()"></textarea>
+    </div>
 
 
     <table class="hide table table-condensed" ng-repeat="map in maps">

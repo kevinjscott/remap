@@ -50206,6 +50206,7 @@ webpackJsonp([1],[
 
 	        _.each($scope.maps, function (o, i) {
 	            $scope.maps[i].preview = line.substring(pos, pos + $scope.maps[i].outwidth);
+	            $scope.maps[i].preview = '"' + $scope.maps[i].preview + '" ' + pos + '-' + (pos + $scope.maps[i].preview.length);
 	            pos += $scope.maps[i].outwidth;
 	        });
 	    };

@@ -22,15 +22,19 @@ canvas {
     display: block;
 }
 
-#indata,#indata2,#outdata {
+#indata,#indata2 {
   font-family: monospace;
   height: 100px !important;
   white-space: pre;
   overflow: scroll;
 }
 
-#indata {
+#outdata {
   background-color: #eee;
+  font-family: monospace;
+  height: 100px !important;
+  white-space: pre;
+  overflow: scroll;
 }
 
 #prettymaps {

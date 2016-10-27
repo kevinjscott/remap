@@ -54,14 +54,15 @@
         <tr>
           <th>Map name (for reference only):</th>
           <th>Output width:</th>
-          <th>Output padding placement ("start" or "end"):</th>
+          <th>Output placement ("start" or "end"):</th>
           <th>Output padding character:</th>
           <th>Input source (0 = data row, 1/2/3 = section header row #):</th>
           <th>Input start position:</th>
           <th>Input width:</th>
           <th>Type (todo):</th>
-          <td></td>
-          <td id="permadd"><button class="btn btn-success" ng-click="addMap(-1)">add</button></td>
+          <th>Preview</th>
+          <th>First<br>last</th>
+          <th id="permadd"><button class="btn btn-success" ng-click="addMap(-1)">add</button></th>
         </tr>
       </thead>
       <tbody>
@@ -74,9 +75,10 @@
             <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+            <td><pre>{{map.preview.text}}</pre></td>
+            <td><div>{{map.preview.startpos}}</div><div ng-show="map.preview.startpos">{{map.preview.endpos}}</div></td>
             <td><button class="btn btn-danger" ng-click="removeMap($index)">remove</button></td>
             <td><button class="btn btn-success" ng-click="addMap($index)">add</button></td>
-            <td><pre ng-show="map.preview">{{map.preview}}</pre></td>
           </tr>
       </tbody>
     </table>
@@ -86,54 +88,11 @@
 
     <br/><br/>
 
+    <div class="alert alert-danger" role="alert" ng-bind="prettymapserror" ng-show="prettymapserror"></div>
+
     <div class="form-group" ng-show="maps.length">
-      <label for="prettymaps">Maps (as JSON):</label>
-      <textarea id="prettymaps" class="form-control" ng-bind="prettymaps()"></textarea>
+      <label for="prettymaps">Edit / copy / paste maps JSON here:</label>
+      <textarea id="prettymaps" class="form-control" ng-model="prettymaps" ng-model-options="{ getterSetter: true, debounce: 2000 }"></textarea>
     </div>
-
-
-    <table class="hide table table-condensed" ng-repeat="map in maps">
-      <thead>
-        <tr>
-          <th>{{map.name}}</th>
-          <!-- <th>Map #{{$index+1}}</th> -->
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr>
-            <td>Name (for reference only):</td>
-            <td><input ng-model="map.name" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Output width:</td>
-            <td><input ng-model="map.outwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Output padding placement ("start" or "end"):</td>
-            <td><input ng-model="map.padding_position" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Output padding character:</td>
-            <td><input ng-model="map.padding_symbol" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Input source (0 = each data row, 1 = section header row #1, #2, etc):</td>
-            <td><input ng-model="map.sourcerow" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Input start position:</td>
-            <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Input width:</td>
-            <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-          <tr>
-            <td>Type (todo):</td>
-            <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
-          </tr>
-      </tbody>
-    </table>
 
   </div>

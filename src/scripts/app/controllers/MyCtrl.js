@@ -4,11 +4,11 @@ var mCtrls = require('./_mCtrls'),
     // debug = require('debug'),
     // log = debug('Ctrls'),
     _ = require('lodash'),
+    http = require('http'),
     angular = require('angular'),
     // loader = require('../../utilities/loader'),
     fixy = require('fixy'),
     filesaver = require('file-saver');
-
 
 mCtrls.directive('onReadFile', function ($parse) {
     return {
@@ -33,78 +33,49 @@ mCtrls.directive('onReadFile', function ($parse) {
 });
 
 
-mCtrls.controller('MyCtrl', function ($scope) {
-    // log('test');
-    // $scope.test = 'test2';
-    // console.log(loader.getLoader('main').getResult('app-data'));
-
+mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
     $scope.indata = 'CLM00123Big  \nJohn      Doe       \nPAY78111\nPAY87222\nPAY98333\nPAY89444\n';
     $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555\nPAY23666\nPAY34777\nPAY45888';
     $scope.headerselector = 'CLM';
     $scope.headerrowcount = 2;
     $scope.lineselector = 'PAY';
-    $scope.maps = [ 
-        {
-            'name': 'Claim number',
-            'inwidth': 5,
-            'instart': 4,
-            'type': 'string',
-            'outwidth': 10,
-            'sourcerow': 1,
-            'padding_position': 'end',
-            'padding_symbol': '-'
-        }, {
-            'name': 'Size',
-            'inwidth': 5,
-            'instart': 9,
-            'type': 'string',
-            'outwidth': 10,
-            'sourcerow': 1,
-            'padding_position': 'end',
-            'padding_symbol': '-'
-        }, {
-            'name': 'First name',
-            'inwidth': 10,
-            'instart': 1,
-            'type': 'string',
-            'outwidth': 10,
-            'sourcerow': 2,
-            'padding_position': 'end',
-            'padding_symbol': '-'
-        }, {
-            'name': 'Last name',
-            'inwidth': 10,
-            'instart': 11,
-            'type': 'string',
-            'outwidth': 10,
-            'sourcerow': 2,
-            'padding_position': 'end',
-            'padding_symbol': '-'
-        }, {
-            'name': 'Amount',
-            'inwidth': 2,
-            'instart': 4,
-            'type': 'string',
-            'outwidth': 10,
-            'sourcerow': 0,
-            'padding_position': 'end',
-            'padding_symbol': '_'
-        }, {
-            'name': 'Blah',
-            'inwidth': 3,
-            'instart': 6,
-            'type': 'string',
-            'outwidth': 15,
-            'sourcerow': 0,
-            'padding_position': 'start',
-            'padding_symbol': '.'
-        }
-    ];
+    $scope.prettymapserror = '';
 
-    $scope.prettymaps = function () {
+    $http.get("data/maps.json")
+    .then(function(response) {
+        $scope.maps = eval(response.data);
+        $scope.calculateOutdata();
+    });
+
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+    $scope.prettymaps = function (val) {
         var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
         
-        return (angular.toJson(temp, 2));
+        // return (angular.toJson(temp, 2));
+        if (arguments.length) {
+            if (IsJsonString(val)) {
+                $scope.prettymapserror = '';
+                $scope.maps = eval(val);
+                $scope.calculateOutdata();
+                return $scope.maps;
+            } else {
+                $scope.prettymapserror = 'Invalid JSON';
+                $timeout(function() {
+                  $scope.prettymapserror = '';
+                }, 2000);
+                return val;
+            }
+        } else {
+            return angular.toJson(temp, 2);
+        }
     };
 
     $scope.cursorPosVal = {};
@@ -122,19 +93,28 @@ mCtrls.controller('MyCtrl', function ($scope) {
         };
 
         $scope.maps.splice(n + 1, 0, o);
+        $scope.calculateOutdata();
     };
 
     $scope.removeMap = function (n) {
         _.pullAt($scope.maps, n);
+        $scope.calculateOutdata();
     };
 
     var setPreviews = function () {
         var line = (_.split($scope.outdata, '\n') || [])[0];
         var pos = 0;
+        var len = 0;
 
         _.each($scope.maps, function (o, i) {
-            $scope.maps[i].preview = line.substring(pos, pos + $scope.maps[i].outwidth);
-            $scope.maps[i].preview = '"' + $scope.maps[i].preview + '" ' + pos + '-' + (pos + $scope.maps[i].preview.length);
+            $scope.maps[i].preview = {};
+            $scope.maps[i].outwidth *= 1.0;
+            $scope.maps[i].preview.text = line.substring(pos, pos + $scope.maps[i].outwidth);
+            len = $scope.maps[i].preview.text.length;
+            $scope.maps[i].preview.text = '"' + $scope.maps[i].preview.text + '"';
+            $scope.maps[i].preview.startpos = pos + 1;
+            $scope.maps[i].preview.endpos = pos + len;
+            // $scope.maps[i].preview.positions = (pos + 1) + '\n' + (pos + len);
             pos += $scope.maps[i].outwidth;
         });
     };

@@ -334,12 +334,13 @@ gulp.task('_root-files-build', function () {
 
 // Build data
 gulp.task('_data-build', function () {
-    return gulp.src('src/data/**/*.json')
+      // return gulp.src('src/data/**/*.json')
+      return gulp.src('src/data/maps.json')
         .pipe(jsonlint())
         .pipe(jsonlint.reporter())
         .pipe(jsonlint.failOnError())
         .on('error', notify.onError('JSON data build error.'))
-        .pipe(extend('data.json'))
+        .pipe(extend('maps.json', true, '  '))
         .pipe(gulp.dest(BUILD_DIR + '/data/'))
         .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Data build completed.', onLast: true })));

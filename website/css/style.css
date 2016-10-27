@@ -58,14 +58,18 @@ a:hover {
 canvas {
   display: block; }
 
-#indata, #indata2, #outdata {
+#indata, #indata2 {
   font-family: monospace;
   height: 100px !important;
   white-space: pre;
   overflow: scroll; }
 
-#indata {
-  background-color: #eee; }
+#outdata {
+  background-color: #eee;
+  font-family: monospace;
+  height: 100px !important;
+  white-space: pre;
+  overflow: scroll; }
 
 #prettymaps {
   background-color: #eee;

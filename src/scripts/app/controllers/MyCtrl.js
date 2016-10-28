@@ -1,12 +1,9 @@
 'use strict';
 
 var mCtrls = require('./_mCtrls'),
-    // debug = require('debug'),
-    // log = debug('Ctrls'),
     _ = require('lodash'),
     http = require('http'),
     angular = require('angular'),
-    // loader = require('../../utilities/loader'),
     fixy = require('fixy'),
     filesaver = require('file-saver');
 
@@ -34,8 +31,8 @@ mCtrls.directive('onReadFile', function ($parse) {
 
 
 mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
-    $scope.indata = 'CLM00123Big  \nJohn      Doe       \nPAY78111\nPAY87222\nPAY98333\nPAY89444\n';
-    $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555\nPAY23666\nPAY34777\nPAY45888';
+    $scope.indata =  'CLM00123Big  \nJohn      Doe       \nPAY78111  abc\nPAY87222  cde\nPAY98333  def\nPAY89444  ab \n';
+    $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555  cde\nPAY23666  abc\nPAY34777  bc \nPAY45888  ab ';
     $scope.headerselector = 'CLM';
     $scope.headerrowcount = 2;
     $scope.lineselector = 'PAY';
@@ -282,7 +279,7 @@ function IsJsonString(str) {
     };
 
     $scope.calculateOutdata = function () {
-        var keyMapping, valueMapping, inmaps, outmaps, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
+        var keyMapping, valueMapping, inmaps, outmaps, transforms, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
         var allinrowsclean = _.split($scope.indata, '\n');
         var sections = [];
         var headerwidths = [];
@@ -341,6 +338,21 @@ function IsJsonString(str) {
             });
         });
 
+        transforms = [];
+        for (var i = 0; i < $scope.maps.length; i++) {
+            var m = $scope.maps[i];
+            if (m.transform) {
+                if (m.transform.lookup) {
+                      transforms.push(
+                          {
+                              lookup: m.transform.lookup,
+                              name: m.name
+                          }
+                      );
+                  }
+            }
+        }
+
         for (j = 0; j < sections.length; j++) {
             predata = sections[j].rows;
 
@@ -362,6 +374,15 @@ function IsJsonString(str) {
                 map: inmaps,
                 options: options
             }, predata);
+
+            for (var i = 0; i < transforms.length; i++) {
+                var name = transforms[i].name;
+                var t = transforms[i].lookup;
+                if (t) {
+                    nativedata.thisrow[0][name] = t[nativedata.thisrow[0][name]] || 'ERR';
+                }
+            }
+
 
             flatnativedata = _.cloneDeep(nativedata.thisrow);
 

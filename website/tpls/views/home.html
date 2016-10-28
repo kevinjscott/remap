@@ -60,6 +60,7 @@
           <th>Input start position:</th>
           <th>Input width:</th>
           <th>Type (todo):</th>
+          <th>Transform?:</th>
           <th>Preview</th>
           <th>First<br>last</th>
           <th id="permadd"><button class="btn btn-success" ng-click="addMap(-1)">add</button></th>
@@ -75,6 +76,7 @@
             <td><input ng-model="map.instart" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><input ng-model="map.inwidth" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
             <td><input ng-model="map.type" class="form-control" type="text" ng-change="calculateOutdata()" /></td>
+            <td><button class="btn btn-warning" ng-show="map.transform">see JSON<br/>below</button></td>
             <td><pre>{{map.preview.text}}</pre></td>
             <td><div>{{map.preview.startpos}}</div><div ng-show="map.preview.startpos">{{map.preview.endpos}}</div></td>
             <td><button class="btn btn-danger" ng-click="removeMap($index)">remove</button></td>
@@ -91,7 +93,7 @@
     <div class="alert alert-danger" role="alert" ng-bind="prettymapserror" ng-show="prettymapserror"></div>
 
     <div class="form-group" ng-show="maps.length">
-      <label for="prettymaps">Edit / copy / paste maps JSON here:</label>
+      <label for="prettymaps">Or edit / copy / paste maps JSON here:</label>
       <textarea id="prettymaps" class="form-control" ng-model="prettymaps" ng-model-options="{ getterSetter: true, debounce: 2000 }"></textarea>
     </div>
 

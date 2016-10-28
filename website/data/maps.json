@@ -20,6 +20,24 @@
     "padding_symbol": "-"
   },
   {
+    "name": "Transform this",
+    "inwidth": "3",
+    "instart": "11",
+    "type": "string",
+    "outwidth": 3,
+    "sourcerow": 0,
+    "padding_position": "end",
+    "padding_symbol": "",
+    "transform": {
+      "lookup": {
+        "1": "2",
+        "Abc": "123",
+        "abc": "cba",
+        "BC": "88"
+      }
+    }
+  },
+  {
     "name": "First name",
     "inwidth": 10,
     "instart": 1,

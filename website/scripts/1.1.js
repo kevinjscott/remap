@@ -50073,12 +50073,9 @@ webpackJsonp([1],[
 	'use strict';
 
 	var mCtrls = __webpack_require__(35),
-	    // debug = require('debug'),
-	    // log = debug('Ctrls'),
 	    _ = __webpack_require__(37),
 	    http = __webpack_require__(38),
 	    angular = __webpack_require__(16),
-	    // loader = require('../../utilities/loader'),
 	    fixy = __webpack_require__(72),
 	    filesaver = __webpack_require__(182);
 
@@ -50106,8 +50103,8 @@ webpackJsonp([1],[
 
 
 	mCtrls.controller('MyCtrl', ["$scope", "$http", "$timeout", function ($scope, $http, $timeout) {
-	    $scope.indata = 'CLM00123Big  \nJohn      Doe       \nPAY78111\nPAY87222\nPAY98333\nPAY89444\n';
-	    $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555\nPAY23666\nPAY34777\nPAY45888';
+	    $scope.indata =  'CLM00123Big  \nJohn      Doe       \nPAY78111  abc\nPAY87222  cde\nPAY98333  def\nPAY89444  ab \n';
+	    $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555  cde\nPAY23666  abc\nPAY34777  bc \nPAY45888  ab ';
 	    $scope.headerselector = 'CLM';
 	    $scope.headerrowcount = 2;
 	    $scope.lineselector = 'PAY';
@@ -50354,7 +50351,7 @@ webpackJsonp([1],[
 	    };
 
 	    $scope.calculateOutdata = function () {
-	        var keyMapping, valueMapping, inmaps, outmaps, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
+	        var keyMapping, valueMapping, inmaps, outmaps, transforms, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
 	        var allinrowsclean = _.split($scope.indata, '\n');
 	        var sections = [];
 	        var headerwidths = [];
@@ -50413,6 +50410,21 @@ webpackJsonp([1],[
 	            });
 	        });
 
+	        transforms = [];
+	        for (var i = 0; i < $scope.maps.length; i++) {
+	            var m = $scope.maps[i];
+	            if (m.transform) {
+	                if (m.transform.lookup) {
+	                      transforms.push(
+	                          {
+	                              lookup: m.transform.lookup,
+	                              name: m.name
+	                          }
+	                      );
+	                  }
+	            }
+	        }
+
 	        for (j = 0; j < sections.length; j++) {
 	            predata = sections[j].rows;
 
@@ -50434,6 +50446,15 @@ webpackJsonp([1],[
 	                map: inmaps,
 	                options: options
 	            }, predata);
+
+	            for (var i = 0; i < transforms.length; i++) {
+	                var name = transforms[i].name;
+	                var t = transforms[i].lookup;
+	                if (t) {
+	                    nativedata.thisrow[0][name] = t[nativedata.thisrow[0][name]] || 'ERR';
+	                }
+	            }
+
 
 	            flatnativedata = _.cloneDeep(nativedata.thisrow);
 
@@ -74153,7 +74174,7 @@ webpackJsonp([1],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
-	//! version : 2.15.1
+	//! version : 2.15.2
 	//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 	//! license : MIT
 	//! momentjs.com
@@ -74984,7 +75005,7 @@ webpackJsonp([1],[
 
 	    // LOCALES
 
-	    var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/;
+	    var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
 	    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
 	    function localeMonths (m, format) {
 	        if (!m) {
@@ -78349,7 +78370,7 @@ webpackJsonp([1],[
 	    // Side effect imports
 
 
-	    utils_hooks__hooks.version = '2.15.1';
+	    utils_hooks__hooks.version = '2.15.2';
 
 	    setHookCallback(local__createLocal);
 
@@ -83331,7 +83352,7 @@ webpackJsonp([1],[
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
-	//! locale : Japanese [jv]
+	//! locale : Javanese [jv]
 	//! author : Rony Lantip : https://github.com/lantip
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
@@ -84096,7 +84117,7 @@ webpackJsonp([1],[
 	        months : {
 	            format: 'sausio_vasario_kovo_balandžio_gegužės_birželio_liepos_rugpjūčio_rugsėjo_spalio_lapkričio_gruodžio'.split('_'),
 	            standalone: 'sausis_vasaris_kovas_balandis_gegužė_birželis_liepa_rugpjūtis_rugsėjis_spalis_lapkritis_gruodis'.split('_'),
-	            isFormat: /D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?|MMMM?(\[[^\[\]]*\]|\s+)+D[oD]?/
+	            isFormat: /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?|MMMM?(\[[^\[\]]*\]|\s)+D[oD]?/
 	        },
 	        monthsShort : 'sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd'.split('_'),
 	        weekdays : {
@@ -106910,7 +106931,7 @@ webpackJsonp([1],[
 /* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
 	 * A saveAs() FileSaver implementation.
 	 * 1.3.2
 	 * 2016-06-16 18:25:19
@@ -106943,7 +106964,7 @@ webpackJsonp([1],[
 				var event = new MouseEvent("click");
 				node.dispatchEvent(event);
 			}
-			, is_safari = /constructor/i.test(view.HTMLElement)
+			, is_safari = /constructor/i.test(view.HTMLElement) || view.safari
 			, is_chrome_ios =/CriOS\/[\d]+/.test(navigator.userAgent)
 			, throw_outside = function(ex) {
 				(view.setImmediate || view.setTimeout)(function() {
@@ -107094,9 +107115,9 @@ webpackJsonp([1],[
 	if (typeof module !== "undefined" && module.exports) {
 	  module.exports.saveAs = saveAs;
 	} else if (("function" !== "undefined" && __webpack_require__(183) !== null) && (__webpack_require__(4) !== null)) {
-	  !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	  !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
 	    return saveAs;
-	  }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	}
 
 

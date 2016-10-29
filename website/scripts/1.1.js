@@ -50101,7 +50101,6 @@ webpackJsonp([1],[
 	    };
 	}]);
 
-
 	mCtrls.controller('MyCtrl', ["$scope", "$http", "$timeout", function ($scope, $http, $timeout) {
 	    $scope.indata =  'CLM00123Big  \nJohn      Doe       \nPAY78111  abc\nPAY87222  cde\nPAY98333  def\nPAY89444  ab \n';
 	    $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555  cde\nPAY23666  abc\nPAY34777  bc \nPAY45888  ab ';
@@ -50116,19 +50115,18 @@ webpackJsonp([1],[
 	        $scope.calculateOutdata();
 	    });
 
-	function IsJsonString(str) {
-	    try {
-	        JSON.parse(str);
-	    } catch (e) {
-	        return false;
+	    function IsJsonString(str) {
+	        try {
+	            JSON.parse(str);
+	        } catch (e) {
+	            return false;
+	        }
+	        return true;
 	    }
-	    return true;
-	}
 
 	    $scope.prettymaps = function (val) {
 	        var temp = _.map($scope.maps, function (o) { return _.omit(o, 'preview'); });
 	        
-	        // return (angular.toJson(temp, 2));
 	        if (arguments.length) {
 	            if (IsJsonString(val)) {
 	                $scope.prettymapserror = '';
@@ -50183,7 +50181,6 @@ webpackJsonp([1],[
 	            $scope.maps[i].preview.text = '"' + $scope.maps[i].preview.text + '"';
 	            $scope.maps[i].preview.startpos = pos + 1;
 	            $scope.maps[i].preview.endpos = pos + len;
-	            // $scope.maps[i].preview.positions = (pos + 1) + '\n' + (pos + len);
 	            pos += $scope.maps[i].outwidth;
 	        });
 	    };
@@ -50278,17 +50275,6 @@ webpackJsonp([1],[
 	        return (results);
 	    };
 
-	    var buildValueMap = function (n) {
-	        var result = {};
-	        var i;
-
-	        result[0] = 'thisrow';
-	        for (i = 1; i <= n; i++) {
-	            result[i] = 'headerrow' + i;
-	        }
-	        return (result);
-	    };
-
 	    var buildLevels = function (headerrowcount, data) {
 	        var result = {};
 	        var i;
@@ -50328,20 +50314,6 @@ webpackJsonp([1],[
 
 	        indata = _.split(indata, '\n');
 
-	        // var average = _.reduce(indata, function (sum, str) {
-	        //     return (sum + str.length);
-	        // }, 0) / indata.length;
-
-	        // if (average !== indata[0].length) {
-	        //     $scope.erroralert = 'Input data rows are not all the same length.';
-	        //     return();
-	        // }
-
-	        // if (average !== indata[0].length) {
-	        //     $scope.erroralert = 'Input data rows are not all the same length.';
-	        //     return;
-	        // }
-
 	        if (_.findIndex(indata, getSectionHeader) < 0) {
 	            $scope.erroralert = 'Warning: no matching section headers found.';
 	            return;
@@ -50351,7 +50323,7 @@ webpackJsonp([1],[
 	    };
 
 	    $scope.calculateOutdata = function () {
-	        var keyMapping, valueMapping, inmaps, outmaps, transforms, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
+	        var valueMapping, inmaps, outmaps, transforms, options, nativedata, flatnativedata, j, i, predata, preheaderdata, result;
 	        var allinrowsclean = _.split($scope.indata, '\n');
 	        var sections = [];
 	        var headerwidths = [];
@@ -50370,49 +50342,34 @@ webpackJsonp([1],[
 	        }
 
 	        $scope.outdata = '';
-	        sections[0] =  {}; // todo: parse out the actual multiple sections
-	        // sections[0].rows = allinrowsclean
+	        sections[0] =  {};
 	        sections = parseIntoSections(allinrowsclean, headerrowcount);
 
-	        // assemble the map using the object keys that fixy needs
-	        keyMapping = {
-	            'name': 'name',
-	            'inwidth': 'width',
-	            'instart': 'start',
-	            'type': 'type',
-	            'sourcerow': 'level'
-	        };
-	        
-	        valueMapping = buildValueMap(headerrowcount);
-
-	        inmaps = _.map($scope.maps, function (o) {
-	            return _.transform(o, function (res, value, key) {
-	                if (keyMapping[key] && (value != null)) {
-	                    if (key === 'sourcerow') {
-	                        value = valueMapping[value];
-	                    }
-	                    res[keyMapping[key]] = value * 1 ? value * 1 : value;
-	                }
-	            });
-	        });
-
-	        keyMapping = {
-	            'name': 'name',
-	            'outwidth': 'width',
-	            'padding_position': 'padding_position',
-	            'padding_symbol': 'padding_symbol'
-	        };
-	        outmaps = _.map($scope.maps, function (o) {
-	            return _.transform(o, function (res, value, key) {
-	                if (keyMapping[key] && value) {
-	                    res[keyMapping[key]] = value * 1 ? value * 1 : value;
-	                }
-	            });
-	        });
-
+	        inmaps = [];
+	        outmaps = [];
 	        transforms = [];
 	        for (var i = 0; i < $scope.maps.length; i++) {
 	            var m = $scope.maps[i];
+
+	            inmaps.push(
+	                {
+	                    name: m.name,
+	                    width: m.inwidth,
+	                    start: m.instart,
+	                    type: m.type,
+	                    level: m.sourcerow === 0 ? 'thisrow' : 'headerrow' + m.sourcerow
+	                  }
+	            );
+
+	            outmaps.push(
+	                {
+	                    name: m.name,
+	                    width: m.outwidth,
+	                    padding_position: m.padding_position,
+	                    padding_symbol: m.padding_symbol
+	                }
+	              );
+
 	            if (m.transform) {
 	                if (m.transform.lookup) {
 	                      transforms.push(
@@ -50455,7 +50412,6 @@ webpackJsonp([1],[
 	                }
 	            }
 
-
 	            flatnativedata = _.cloneDeep(nativedata.thisrow);
 
 	            flatnativedata = _.each(flatnativedata, function (o) {
@@ -50471,15 +50427,6 @@ webpackJsonp([1],[
 	            setPreviews();
 	        }
 	    };
-
-	    $scope.getCursorPos = function () {
-	        var n = window.getSelection().focusOffset;
-	        var rowlen = _.split($scope.indata, '\n')[0].length;
-
-	        $scope.cursorPosVal.pos = n;  // todo: n+1?
-	        $scope.cursorPosVal.col = n % rowlen;
-	        $scope.cursorPosVal.row = _.floor(n / rowlen) + 1;
-	    };        
 	}]);
 
 

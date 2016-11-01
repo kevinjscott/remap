@@ -29,10 +29,10 @@
     "padding_position": "end",
     "padding_symbol": "",
     "transform": {
-      "lookup": {
+      "type": "lookup",
+      "data": {
         "1": "2",
-        "Abc": "123",
-        "abc": "cba",
+        "ABC": "123",
         "BC": "88"
       }
     }
@@ -56,6 +56,20 @@
     "sourcerow": 2,
     "padding_position": "end",
     "padding_symbol": "-"
+  },
+  {
+    "name": "A constant",
+    "inwidth": 10,
+    "instart": 11,
+    "type": "string",
+    "outwidth": 13,
+    "sourcerow": 0,
+    "padding_position": "end",
+    "padding_symbol": "-",
+    "transform": {
+      "type": "lookup",
+      "data": {}
+    }
   },
   {
     "name": "Amount",

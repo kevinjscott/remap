@@ -73,6 +73,29 @@ mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
         }
     };
 
+    $scope.transformfunctions = {
+        lookup: function (input, data) {
+            return data[input] || input;
+        },
+
+        toUpper: function (input, data) {
+            return _.toUpper(input);
+        },
+
+        toLower: function (input, data) {
+            return _.toLower(input);
+        },
+
+        capitalize: function (input, data) {
+            return _.capitalize(input);
+        },
+
+        constant: function (input, data) {
+            return data;
+        },
+
+    };
+
     $scope.cursorPosVal = {};
 
     $scope.addMap = function (n) {
@@ -299,14 +322,13 @@ mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
               );
 
             if (m.transform) {
-                if (m.transform.lookup) {
-                      transforms.push(
-                          {
-                              lookup: m.transform.lookup,
-                              name: m.name
-                          }
-                      );
-                  }
+                transforms.push(
+                    {
+                        type: m.transform.type,
+                        data: m.transform.data,
+                        name: m.name
+                    }
+                );
             }
         }
 
@@ -323,7 +345,6 @@ mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
             }
 
             options = { skiplines: null };
-            // options.skiplines = null;
             options.levels = buildLevels(headerrowcount, predata);
             predata = _.join(predata, '\n');
 
@@ -333,10 +354,14 @@ mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
             }, predata);
 
             for (var i = 0; i < transforms.length; i++) {
-                var name = transforms[i].name;
-                var t = transforms[i].lookup;
-                if (t) {
-                    nativedata.thisrow[0][name] = t[nativedata.thisrow[0][name]] || 'ERR';
+                var t = transforms[i];
+                var row = nativedata.thisrow[0];
+                var val = row[t.name];
+
+                if (_.hasIn($scope.transformfunctions, t.type)) {
+                    row[t.name] = $scope.transformfunctions[t.type](val, t.data) || 'ERR';
+                } else {
+                    row[t.name] = 'ERR';
                 }
             }
 

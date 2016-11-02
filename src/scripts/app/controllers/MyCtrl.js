@@ -330,7 +330,7 @@ mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
                     }
                 );
             }
-        }
+        } 
 
         for (j = 0; j < sections.length; j++) {
             predata = sections[j].rows;

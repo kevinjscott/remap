@@ -30,11 +30,11 @@ mCtrls.directive('onReadFile', function ($parse) {
 });
 
 mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
-    $scope.indata =  'CLM00123Big  \nJohn      Doe       \nPAY78111  abc\nPAY87222  cde\nPAY98333  def\nPAY89444  ab \n';
-    $scope.indata += 'CLM00234Small\nJane      Doe       \nPAY12555  cde\nPAY23666  abc\nPAY34777  bc \nPAY45888  ab ';
-    $scope.headerselector = 'CLM';
+    $scope.indata =  'HEAD00123Big  \nJohn      Doe       \nDATA78111  abc\nDATA87222  cde\nDATA98333  def\nDATA89444  ab \n';
+    $scope.indata += 'HEAD00234Small\nJane      Doe       \nDATA12555  cde\nDATA23666  abc\nDATA34777  bc \nDATA45888  ab ';
+    $scope.headerselector = 'HEAD';
     $scope.headerrowcount = 2;
-    $scope.lineselector = 'PAY';
+    $scope.lineselector = 'DATA';
     $scope.prettymapserror = '';
 
     $http.get("data/maps.json")
@@ -305,17 +305,17 @@ mCtrls.controller('MyCtrl', function ($scope, $http, $timeout) {
             inmaps.push(
                 {
                     name: m.name,
-                    width: m.inwidth,
-                    start: m.instart,
+                    width: _.toInteger(m.inwidth),
+                    start: _.toInteger(m.instart),
                     type: m.type,
-                    level: m.sourcerow === 0 ? 'thisrow' : 'headerrow' + m.sourcerow
+                    level: m.sourcerow == 0 ? 'thisrow' : 'headerrow' + m.sourcerow
                   }
             );
 
             outmaps.push(
                 {
                     name: m.name,
-                    width: m.outwidth,
+                    width: _.toInteger(m.outwidth),
                     padding_position: m.padding_position,
                     padding_symbol: m.padding_symbol
                 }

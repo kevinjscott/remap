@@ -1,8 +1,36 @@
 [
   {
+    "name": "Padding",
+    "inwidth": 0,
+    "instart": 0,
+    "type": "string",
+    "outwidth": 13,
+    "sourcerow": 0,
+    "padding_position": "end",
+    "padding_symbol": " ",
+    "transform": {
+      "type": "constant",
+      "data": ""
+    }
+  },
+  {
+    "name": "Constant",
+    "inwidth": 0,
+    "instart": 0,
+    "type": "string",
+    "outwidth": 5,
+    "sourcerow": 0,
+    "padding_position": "end",
+    "padding_symbol": " ",
+    "transform": {
+      "type": "constant",
+      "data": "CONST"
+    }
+  },
+  {
     "name": "Claim number",
     "inwidth": 5,
-    "instart": 4,
+    "instart": "5",
     "type": "string",
     "outwidth": 7,
     "sourcerow": 1,
@@ -12,7 +40,7 @@
   {
     "name": "Size",
     "inwidth": 5,
-    "instart": 9,
+    "instart": "10",
     "type": "string",
     "outwidth": 10,
     "sourcerow": 1,
@@ -22,7 +50,7 @@
   {
     "name": "Transform this",
     "inwidth": "3",
-    "instart": "11",
+    "instart": "12",
     "type": "string",
     "outwidth": 3,
     "sourcerow": 0,
@@ -32,7 +60,8 @@
       "type": "lookup",
       "data": {
         "1": "2",
-        "ABC": "123",
+        "ABC": "CBA",
+        "abc": "cba",
         "BC": "88"
       }
     }
@@ -55,26 +84,12 @@
     "outwidth": 13,
     "sourcerow": 2,
     "padding_position": "end",
-    "padding_symbol": "-"
-  },
-  {
-    "name": "A constant",
-    "inwidth": 10,
-    "instart": 11,
-    "type": "string",
-    "outwidth": 13,
-    "sourcerow": 0,
-    "padding_position": "end",
-    "padding_symbol": "-",
-    "transform": {
-      "type": "lookup",
-      "data": {}
-    }
+    "padding_symbol": "."
   },
   {
     "name": "Amount",
     "inwidth": 2,
-    "instart": 4,
+    "instart": "5",
     "type": "string",
     "outwidth": 8,
     "sourcerow": 0,

@@ -56,13 +56,13 @@
           <th>Output width:</th>
           <th>Output placement ("start" or "end"):</th>
           <th>Output padding character:</th>
-          <th>Input source (0 = data row, 1/2/3 = section header row #):</th>
+          <th>Pull from row? (data row 0, section header row 1-n):</th>
           <th>Input start position:</th>
           <th>Input width:</th>
           <th>Type (todo):</th>
           <th>Transform?:</th>
           <th>Preview</th>
-          <th>First<br>last</th>
+          <th>First<br>last<br>pos.</th>
           <th id="permadd"><button class="btn btn-success" ng-click="addMap(-1)">add</button></th>
         </tr>
       </thead>
@@ -94,7 +94,7 @@
 
     <div class="form-group" ng-show="maps.length">
       <label for="prettymaps">Or edit / copy / paste maps JSON here:</label>
-      <textarea id="prettymaps" class="form-control" ng-model="prettymaps" ng-model-options="{ getterSetter: true, debounce: 2000 }"></textarea>
+      <textarea id="prettymaps" class="form-control" ng-model="prettymaps" ng-model-options="{ getterSetter: true, debounce: 1500 }"></textarea>
     </div>
 
   </div>

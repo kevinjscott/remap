@@ -50427,13 +50427,15 @@ webpackJsonp([1],[
 
 	            for (var i = 0; i < transforms.length; i++) {
 	                var t = transforms[i];
-	                var row = nativedata.thisrow[0];
-	                var val = row[t.name];
+	                for (var k = 0; k < nativedata.thisrow.length; k++) {
+	                    var row = nativedata.thisrow[k];
+	                    var val = row[t.name];
 
-	                if (_.hasIn($scope.transformfunctions, t.type)) {
-	                    row[t.name] = $scope.transformfunctions[t.type](val, t.data) || 'ERR';
-	                } else {
-	                    row[t.name] = 'ERR';
+	                    if (_.hasIn($scope.transformfunctions, t.type)) {
+	                        row[t.name] = $scope.transformfunctions[t.type](val, t.data);
+	                    } else {
+	                        row[t.name] = 'ERR';
+	                    }
 	                }
 	            }
 
